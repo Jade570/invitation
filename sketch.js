@@ -1,6 +1,8 @@
 let people = [];
-let peopleNum = 50;
+let peopleNum = 2;
 let tg;
+let mp = false;
+let i = 1;
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 }
@@ -25,8 +27,8 @@ class Person {
   render (){
     stroke(this.color);
     strokeWeight(2);
-    fill(red(this.color)+10, green(this.color)+10, blue(this.color)+10);
-
+    //fill(red(this.color)+10, green(this.color)+10, blue(this.color)+10);
+    fill(this.color);
     this.x=this.xAxis+cos(radians(this.i))*this.radius;
     this.y=this.yAxis+sin(radians(this.i))*this.radius;
 
@@ -43,19 +45,29 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
   tg = [color(91,206,250), color(245,169,184), color(255,255,255)];
-  
-  for (let i = 0 ;i<peopleNum; i++){
-      people.push(
-        new Person(
-        direction=getRandomInt(1)===0?true:false,
-        startDeg=getRandomInt(360),
-        deg = getRandomInt(90),
-        diameter=10+getRandomInt(20),
-        radius=50+getRandomInt(50),
-        xAxis=windowWidth*Math.random(),
-        yAxis=windowHeight*Math.random(),
-        color=tg[getRandomInt(3)]));
-  }
+  people.push(
+    new Person(
+      (direction = getRandomInt(1) === 0 ? true : false),
+      (startDeg = getRandomInt(360)),
+      (deg = getRandomInt(90)),
+      (diameter = 10 + getRandomInt(20)),
+      (radius = 30 + getRandomInt(100)),
+      (xAxis = windowWidth / 2),
+      (yAxis = windowHeight / 2),
+      (color = tg[0])
+    )
+  );
+    people.push(
+      new Person(
+      direction=getRandomInt(1)===0?true:false,
+      startDeg=getRandomInt(360),
+      deg = getRandomInt(90),
+      diameter=10+getRandomInt(20),
+      radius=30+getRandomInt(100),
+      xAxis=windowWidth/2,
+      yAxis=windowHeight/2,
+      color=tg[1]));
+
 }
 
 function draw() {
@@ -68,7 +80,7 @@ function draw() {
     }
     if (people[i].i === people[i].endDeg){
       people[i].direction = !people[i].direction;
-      people[i].radius = 50+getRandomInt(50)
+      people[i].radius = 30+getRandomInt(150)
       people[i].startDeg = (people[i].endDeg+180)%360;
       people[i].i = people[i].startDeg;
       people[i].endDeg =  people[i].direction ? people[i].startDeg+45+getRandomInt(270) :people[i].startDeg-45-getRandomInt(270); 
@@ -80,5 +92,27 @@ function draw() {
     people[i].y=this.yAxis-sin(radians(this.i))*this.radius; 
     people[i].render();
   }
+  if (mp){
+    background(i,i,i,i);
+    i*=1.008;
+  }
+}
 
+function mousePressed(){
+  if (!mp){
+    peopleNum = 50;
+    for (let i = 0 ; i < peopleNum-2; i++){
+      people.push(
+      new Person(
+        direction=getRandomInt(1)===0?true:false,
+        startDeg=getRandomInt(360),
+        deg = getRandomInt(90),
+        diameter=10+getRandomInt(20),
+        radius=30+getRandomInt(100),
+        xAxis=windowWidth*Math.random(),
+        yAxis=windowHeight*Math.random(),
+        color=tg[getRandomInt(3)]));
+    }
+    mp =true;
+  }
 }
