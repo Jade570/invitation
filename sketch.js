@@ -16,8 +16,8 @@ class Person {
 
     this.i = startDeg;
     this.preI = startDeg;
-    this.x=this.xAxis-cos(radians(this.i))*this.radius;
-    this.y=this.yAxis-sin(radians(this.i))*this.radius;
+    this.x=this.xAxis+cos(radians(this.i))*this.radius;
+    this.y=this.yAxis+sin(radians(this.i))*this.radius;
     this.color = color;
   }
 
@@ -26,8 +26,8 @@ class Person {
     strokeWeight(2);
     fill(red(this.color)+10, green(this.color)+10, blue(this.color)+10);
 
-    this.x=this.xAxis-cos(radians(this.i))*this.radius;
-    this.y=this.yAxis-sin(radians(this.i))*this.radius;
+    this.x=this.xAxis+cos(radians(this.i))*this.radius;
+    this.y=this.yAxis+sin(radians(this.i))*this.radius;
 
     circle(
       this.x,
@@ -68,7 +68,7 @@ function draw() {
 
       people[i].i = people[i].startDeg;
       people[i].startDeg = people[i].endDeg+180;
-      people[i].endDeg =  people[i].startDeg+getRandomInt(180)
+      people[i].endDeg =  people[i].startDeg+getRandomInt(90)
       people[i].xAxis = people[i].x-people[i].radius*cos(radians(people[i].i))
       people[i].yAxis = people[i].y-people[i].radius*sin(radians(people[i].i))
       console.log("시작각:", people[i].startDeg, "끝각: ", people[i].endDeg);
