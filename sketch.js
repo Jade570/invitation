@@ -84,11 +84,12 @@ function setup() {
       for(let i=0; i<180; i++){
         rain[i]=new Rain();
       }	
+      
 }
 
 function draw() {
   if (start){
-    
+    if (playS3) sound3.play();
     for (let i = 0; i < people.length; i++) {
       if (people[i].startDeg<people[i].endDeg){ //시계방향
         people[i].i ++;
@@ -114,7 +115,7 @@ function draw() {
      
       if(i<255 && !change){
         background(i*1.1,i*1.05,i,i);
-        i*=1.008;
+        i*=1.007;
       } 
       else{
         change=true;
@@ -124,8 +125,6 @@ function draw() {
         }
         else{
           playS3 = true;
-          if (playS3) sound3.play();
-          playS3 = false;
           background(200)
           raining= true;
           people = [];
@@ -133,7 +132,10 @@ function draw() {
             rain[i].show();
             rain[i].update();
             }
-        }
+          if(sound3.isPlaying()){
+            playS3 = false;
+          }            
+        }      
       }  
     }
   } 
@@ -147,6 +149,7 @@ function mousePressed(){
   else{
     if (!mp && start){
       sound2.play();
+      sound1.stop();
       peopleNum = 200;
       for (let i = 0 ; i < peopleNum-2; i++){
         people.push(
