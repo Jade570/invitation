@@ -2,13 +2,17 @@ let people = [];
 let peopleNum = 2;
 let tg;
 let mp = false;
+let change = false;
 let i = 1;
+let rain=[];
+let raining= false;
+
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 }
 
 class Person {
-  constructor(direction, startDeg, deg, diameter, radius, xAxis, yAxis, color){
+  constructor(direction, startDeg, deg, diameter, radius, xAxis, yAxis, c){
     this.diameter=diameter;
     this.radius = radius;
     this.direction = direction;
@@ -21,14 +25,13 @@ class Person {
     this.preI = startDeg;
     this.x=this.xAxis+cos(radians(this.i))*this.radius;
     this.y=this.yAxis+sin(radians(this.i))*this.radius;
-    this.color = color;
+    this.c = c;
   }
 
   render (){
-    stroke(this.color);
+    stroke(this.c);
     strokeWeight(2);
-    //fill(red(this.color)+10, green(this.color)+10, blue(this.color)+10);
-    fill(this.color);
+    fill(this.c);
     this.x=this.xAxis+cos(radians(this.i))*this.radius;
     this.y=this.yAxis+sin(radians(this.i))*this.radius;
 
@@ -54,7 +57,7 @@ function setup() {
       (radius = 30 + getRandomInt(100)),
       (xAxis = windowWidth / 2),
       (yAxis = windowHeight / 2),
-      (color = tg[0])
+      (c = tg[0])
     )
   );
     people.push(
@@ -66,8 +69,11 @@ function setup() {
       radius=30+getRandomInt(100),
       xAxis=windowWidth/2,
       yAxis=windowHeight/2,
-      color=tg[1]));
+      c=tg[1]));
 
+      for(let i=0; i<180; i++){
+        rain[i]=new Rain();
+      }	
 }
 
 function draw() {
@@ -93,12 +99,25 @@ function draw() {
     people[i].render();
   }
   if (mp){
-    background(i,i,i,i);
-    if(i<255){
+    if(i<255 && !change){
+      background(i*1.1,i*1.05,i,i);
       i*=1.008;
     } 
     else{
-      people = [];
+      change=true;
+      if (i>200 && !raining){
+        background(i);
+        i-=0.2;
+      }
+      else{
+        background(200)
+        raining= true;
+        people = [];
+        for(let i=0; i<180; i++){
+          rain[i].show();
+          rain[i].update();
+          }
+      }
     }  
   }
 }
@@ -116,8 +135,35 @@ function mousePressed(){
         radius=30+getRandomInt(100),
         xAxis=windowWidth*Math.random(),
         yAxis=windowHeight*Math.random(),
-        color=tg[getRandomInt(3)]));
+        c=tg[getRandomInt(3)]));
     }
     mp =true;
   }
+}
+
+
+function Rain(){
+  this.x=random(0,width);
+  this.y=random(0,-400);
+  this.z=random(2,5);
+  this.r=random(30,80);
+  this.speedY=random(6,8);
+  this.R=random(17,64);
+	this.G=random(100,188,70);
+	this.B=random(126,216,70);
+	this.A=random(254,255,70);
+
+  this.show=function(){
+    noStroke();		
+		fill(255,255,255,10);
+    rect(this.x,this.y,this.z,this.r);
+  }
+  
+	this.update=function(){
+    this.y+=this.speedY;
+    
+    if(this.y>height){
+    this.y=random(0,-400);
+		}
+	}
 }
