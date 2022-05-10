@@ -1,16 +1,17 @@
 let people = [];
-let peopleNum = 1;
+let peopleNum = 10;
 let tg;
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 }
 
 class Person {
-  constructor(startDeg, endDeg, diameter, radius, xAxis, yAxis, color){
+  constructor(direction, startDeg, deg, diameter, radius, xAxis, yAxis, color){
     this.diameter=diameter;
     this.radius = radius;
+    this.direction = direction;
     this.startDeg = startDeg;
-    this.endDeg = endDeg;
+    this.endDeg = direction ? startDeg+deg : startDeg-deg;
     this.xAxis= xAxis;
     this.yAxis= yAxis;
 
@@ -46,8 +47,9 @@ function setup() {
   for (let i = 0 ;i<peopleNum; i++){
       people.push(
         new Person(
-        startDeg=90, 
-        endDeg = 0,
+        direction=getRandomInt(1)===0?true:false,
+        startDeg=getRandomInt(360),
+        deg = getRandomInt(90),
         diameter=10,
         radius=50,
         xAxis=windowWidth*Math.random(),
@@ -65,13 +67,13 @@ function draw() {
       people[i].i --;
     }
     if (people[i].i === people[i].endDeg){
-
+      people[i].direction = !people[i].direction;
+      
+      people[i].startDeg = (people[i].endDeg+180)%360;
       people[i].i = people[i].startDeg;
-      people[i].startDeg = people[i].endDeg+180;
-      people[i].endDeg =  people[i].startDeg+getRandomInt(90)
+      people[i].endDeg =  people[i].direction ? people[i].startDeg+45+getRandomInt(270) :people[i].startDeg-45-getRandomInt(270); 
       people[i].xAxis = people[i].x-people[i].radius*cos(radians(people[i].i))
       people[i].yAxis = people[i].y-people[i].radius*sin(radians(people[i].i))
-      console.log("시작각:", people[i].startDeg, "끝각: ", people[i].endDeg);
     }
     people[i].x=this.xAxis-cos(radians(this.i))*this.radius;
     people[i].y=this.yAxis-sin(radians(this.i))*this.radius; 
