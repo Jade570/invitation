@@ -71,7 +71,7 @@ function setup() {
 }
 
 function draw() {
-  for (let i = 0; i < peopleNum; i++) {
+  for (let i = 0; i < people.length; i++) {
     if (people[i].startDeg<people[i].endDeg){ //시계방향
       people[i].i ++;
     }
@@ -94,7 +94,12 @@ function draw() {
   }
   if (mp){
     background(i,i,i,i);
-    i*=1.008;
+    if(i<255){
+      i*=1.008;
+    } 
+    else{
+      people = [];
+    }  
   }
 }
 
