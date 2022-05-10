@@ -1,5 +1,5 @@
 let people = [];
-let peopleNum = 10;
+let peopleNum = 50;
 let tg;
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
@@ -50,8 +50,8 @@ function setup() {
         direction=getRandomInt(1)===0?true:false,
         startDeg=getRandomInt(360),
         deg = getRandomInt(90),
-        diameter=10,
-        radius=50,
+        diameter=10+getRandomInt(20),
+        radius=50+getRandomInt(50),
         xAxis=windowWidth*Math.random(),
         yAxis=windowHeight*Math.random(),
         color=tg[getRandomInt(3)]));
@@ -68,12 +68,13 @@ function draw() {
     }
     if (people[i].i === people[i].endDeg){
       people[i].direction = !people[i].direction;
-      
+      people[i].radius = 50+getRandomInt(50)
       people[i].startDeg = (people[i].endDeg+180)%360;
       people[i].i = people[i].startDeg;
       people[i].endDeg =  people[i].direction ? people[i].startDeg+45+getRandomInt(270) :people[i].startDeg-45-getRandomInt(270); 
       people[i].xAxis = people[i].x-people[i].radius*cos(radians(people[i].i))
       people[i].yAxis = people[i].y-people[i].radius*sin(radians(people[i].i))
+      
     }
     people[i].x=this.xAxis-cos(radians(this.i))*this.radius;
     people[i].y=this.yAxis-sin(radians(this.i))*this.radius; 
