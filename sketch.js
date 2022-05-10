@@ -121,7 +121,7 @@ function draw() {
         change=true;
         if (i>200 && !raining){
           background(i);
-          i-=0.2;
+          i-=0.4;
         }
         else{
           playS3 = true;
