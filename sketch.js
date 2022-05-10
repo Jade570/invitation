@@ -9,7 +9,7 @@ let rain=[];
 let raining= false;
 let sound1, sound2, sound3;
 let playS3 = false;
-
+let stopS3 = false;
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 }
@@ -89,7 +89,7 @@ function setup() {
 
 function draw() {
   if (start){
-    if (playS3) sound3.play();
+    if (playS3 && !stopS3) sound3.play();
     for (let i = 0; i < people.length; i++) {
       if (people[i].startDeg<people[i].endDeg){ //시계방향
         people[i].i ++;
@@ -134,6 +134,7 @@ function draw() {
             }
           if(sound3.isPlaying()){
             playS3 = false;
+            stopS3 = true;
           }            
         }      
       }  
