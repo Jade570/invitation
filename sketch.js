@@ -8,6 +8,7 @@ let i = 1;
 let rain=[];
 let raining= false;
 let sound1, sound2, sound3;
+let antro;
 let playS3 = false;
 let stopS3 = false;
 const getRandomInt = (max) => {
@@ -52,11 +53,19 @@ function preload(){
   sound1 = loadSound('assets/1.wav');
   sound2 = loadSound('assets/2.wav');
   sound3 = loadSound('assets/33.wav');
+  antro = loadFont('assets/Antro_Vectra.otf');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+
+  fill("#aaaaaa");
+  textFont(antro);
+  textSize(36)
+  textAlign(CENTER);
+  text("An invitation for you, my dear friend.", windowWidth/2, windowHeight/5*4);
+
   tg = [color(91,206,250), color(245,169,184), color(255,255,255)];
   people.push(
     new Person(
@@ -140,11 +149,13 @@ function draw() {
       }  
     }
   } 
+
 }
 
 function mousePressed(){
   if (!start){
     start = true;
+    background(0);
     sound1.play();
   }
   else{
